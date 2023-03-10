@@ -1,9 +1,14 @@
-import React from 'react';
+import { Row, Col } from 'antd';
 
 export default function Signin() {
   return (
-    <div>
-      <h1>Signin</h1>
-    </div>
+    <Row align="middle">
+      <Col span={24}>
+        <Row>
+          <Col span={12}></Col>
+          <Col span={12}></Col>
+        </Row>
+      </Col>
+    </Row>
   );
 }
