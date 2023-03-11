@@ -1,14 +1,5 @@
-import { Row, Col } from 'antd';
+import SigninContainer from '../containers/SigninContainer';
 
 export default function Signin() {
-  return (
-    <Row align="middle">
-      <Col span={24}>
-        <Row>
-          <Col span={12}></Col>
-          <Col span={12}></Col>
-        </Row>
-      </Col>
-    </Row>
-  );
+  return <SigninContainer />;
 }
