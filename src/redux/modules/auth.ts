@@ -1,4 +1,13 @@
-import { createActions, handleAction, handleActions } from 'redux-actions';
+import {
+  createActions,
+  handleAction,
+  handleActions,
+  Action,
+} from 'redux-actions';
+import { takeEvery, put, call } from 'redux-saga/effects';
+import { LoginReqType } from '../../types';
+import UserService from '../../services/UserService';
+import TokenService from '../../services/TokenService';
 
 interface AuthState {
   token: string | null;
@@ -49,4 +58,25 @@ export default reducer;
 
 //saga
 
-export function* authSaga() {}
+export const { login, logout } = createActions('LOGIN', 'LOGOUT', { prefix });
+
+function* loginSaga(action: Action<LoginReqType>) {
+  try {
+    yield put(pending());
+    const token: string = yield call(UserService.login, action.payload);
+    //localstorage
+    TokenService.set(token);
+
+    yield put(success(token));
+    //push
+  } catch (error: any) {
+    yield put(fail(new Error(error?.response?.data?.error || 'UKNOWN_ERROR')));
+  }
+}
+
+function* logoutSaga() {}
+
+export function* authSaga() {
+  yield takeEvery(`${prefix}/LOGIN`, loginSaga);
+  yield takeEvery(`${prefix}/LOGOUT`, loginSaga);
+}
